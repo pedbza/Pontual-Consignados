@@ -1,0 +1,1 @@
+Aqui será colocado tudo sobre o site de Simulação do crédito do trabalhador.
