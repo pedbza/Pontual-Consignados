@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pontual Consignados - Simulação</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    background-color: #ffffff;
+    color: #005791;
+    text-align: center;
+    background-image: url('logo_pontual.jpg');
+    background-size: cover;
+    background-position: center;
+    overflow-x: hidden;
+}
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 50px auto;
+    background: rgba(246, 246, 246, 0.95);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.0);
+    overflow: hidden;
+}
+.logo {
+    width: 200px;
+    margin-bottom: 20px;
+}
+h1 {
+    color: #005791;
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #00a351;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+.btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #0057ab;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+}
+.btn:hover {
+    background-color: #005f30;
+}
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    border-radius: 15px;
+    overflow: hidden;
+}
+th, td {
+    border: 3px solid #005791;
+    padding: 12px;
+    text-align: center;
+}
+th {
+    background-color: #00a351;
+    color: white;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <img src= "Pontual logo.jpg" class="logo">
+    <h1>Simulador de Empréstimo</h1>
+    <form id="formSimulacao">
+        <label for="salario">Salário (R$):</label>
+        <input type="number" id="salario" required>
+        <button type="button" class="btn" onclick="calcularValores()">Calcular</button>
+        <button type="button" class="btn" onclick="enviarWhatsApp()">Enviar para WhatsApp</button>
+    </form>
+    <table>
+        <tr>
+            <th>Parcela Total</th>
+            <th>Valor Liberado</th>
+            <th>Prazo</th>
+        </tr>
+        <tbody id="tabelaParcelaTotal"></tbody>
+    </table>
+    <table>
+        <tr>
+            <th>Meia Parcela</th>
+            <th>Valor Liberado</th>
+            <th>Prazo</th>
+        </tr>
+        <tbody id="tabelaMeiaParcela"></tbody>
+    </table>
+</div>
+ 
+<script>
+function calcularValores() {
+    let salario = parseFloat(document.getElementById('salario').value);
+    
+    // Taxa fixa de 4,99%
+    let taxa = 4.99;
+    
+    let tabelaParcelaTotal = document.getElementById('tabelaParcelaTotal');
+    let tabelaMeiaParcela = document.getElementById('tabelaMeiaParcela');
+   
+    tabelaParcelaTotal.innerHTML = '';
+    tabelaMeiaParcela.innerHTML = '';
+ 
+    if (salario > 0) {
+        let parcelaTotal = 0.35 * salario;
+        let meiaParcela = parcelaTotal / 2;
+        let prazos = [12, 18, 36];
+        let fatores = {
+            "4.99": [0.114, 0.08547, 0.06035]
+        };
+ 
+        for (let i = 0; i < prazos.length; i++) {
+            let valorLiberadoTotal = parcelaTotal / fatores[taxa.toFixed(2)][i];
+            let valorLiberadoMeia = meiaParcela / fatores[taxa.toFixed(2)][i];
+ 
+            tabelaParcelaTotal.innerHTML += `<tr>
+                <td>R$ ${parcelaTotal.toFixed(2)}</td>
+                <td>R$ ${valorLiberadoTotal.toFixed(2)}</td>
+                <td>${prazos[i]}</td>
+            </tr>`;
+            tabelaMeiaParcela.innerHTML += `<tr>
+                <td>R$ ${meiaParcela.toFixed(2)}</td>
+                <td>R$ ${valorLiberadoMeia.toFixed(2)}</td>
+                <td>${prazos[i]}</td>
+            </tr>`;
+        }
+    } else {
+        alert('Por favor, insira um salário válido!');
+    }
+}
+ 
+function enviarWhatsApp() {
+    let salario = parseFloat(document.getElementById('salario').value);
+    
+    // Taxa fixa de 4,99%
+    let taxa = 4.99;
+ 
+    if (salario > 0) {
+        let parcelaTotal = (0.35 * salario).toFixed(2);
+        let meiaParcela = (parcelaTotal / 2).toFixed(2);
+ 
+        let mensagem = `Olá, fiz uma simulação de empréstimo:%0A
+         *Salário:* R$ ${salario.toFixed(2)}%0A
+         *Parcela Total:* R$ ${parcelaTotal}%0A
+         *Meia Parcela:* R$ ${meiaParcela}%0A
+         Poderia me ajudar com mais informações?`;
+ 
+        let telefone = "556181729056";
+        let url = `https://wa.me/${telefone}?text=${mensagem}`;
+ 
+        window.open(url, "_blank");
+    } else {
+        alert("Por favor, preencha os campos corretamente antes de enviar!");
+    }
+}
+</script>
+ 
+</body>
+</html>
