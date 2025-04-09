@@ -1,3 +1,27 @@
+.marca-dagua {
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 20px;
+    font-weight: bold;
+    color: #005791;
+    opacity: 0.20;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    display: flex;
+    flex-direction: column; /* permite que as .linha fiquem uma embaixo da outra */
+    gap: 50px; /* espaço vertical entre linhas */
+    white-space: nowrap;
+}
+
+.marca-dagua .linha {
+    display: flex;
+    gap: 10px; /* espaço horizontal entre os textos */
+    font-size: 20px; /* tamanho da fonte */
+    font-weight: bold; /* negrito */
+}
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +29,7 @@
     font-family: 'Poppins', sans-serif;
 }
 body {
-    background-color: #ffffff;
+    background-color: #005791;
     color: #005791;
     text-align: center;
     background-image: url('logo_pontual.jpg');
@@ -17,7 +41,7 @@ body {
     width: 100%;
     max-width: 600px;
     margin: 50px auto;
-    background: rgba(246, 246, 246, 0.95);
+    background: #f6f6f6;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.0);
